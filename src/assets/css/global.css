@@ -1,3 +1,8 @@
 @import "./normalize.css";
 @import "./app.css";
 @import "../icon/iconfont.css";
+
+:root {
+  --顶部高度: 70px;
+  --侧边宽度: 300px;
+}

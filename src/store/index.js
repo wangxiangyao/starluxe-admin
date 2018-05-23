@@ -9,6 +9,7 @@ import member from "./modules/member/";
 import order from "./modules/order/order.js";
 import commodity from "./modules/commodity/commodity.js";
 import enumber from "./enum";
+import reflection from "./reflection.js";
 
 Vue.use(Vuex);
 
@@ -25,8 +26,14 @@ const state = {
   },
   user: {
     id: "",
-    isLoading: false,
-    needDestroy: false
+    roles: "",
+    realName: "",
+    account: "",
+    lastUpdate: "",
+    isLoading: true,
+    needDestroy: false,
+    permission: "",
+    permissionMap: {}
   },
   mask: {
     isShow: false,
@@ -35,58 +42,43 @@ const state = {
     all: ["login", "error", "success", "hite", "warning"]
   },
   menu: {
+    // 每个菜单都有key值，用于映射后端传入的权限表
     ready: true,
     item: [
       {
+        key: "home",
         title: "首页",
         to: "/home",
         icon: "el-icon-w-home"
       },
       {
+        key: "data",
         title: "数据管理",
         icon: "el-icon-menu",
         sub: [
           {
+            key: "dataMember",
             to: "/member",
             title: "用户",
             icon: "el-icon-star-off"
           },
           {
+            key: "dataOrder",
             to: "/order",
             title: "订单",
             icon: "el-icon-document"
           },
           {
-            title: "",
-            sub: [
-              {
-                to: "",
-                title: ""
-              }
-            ]
-          },
-          {
+            key: "dataCommodity",
             to: "/commodity",
             title: "商品",
             icon: "el-icon-goods"
-          },
-          {
-            to: "",
-            title: ""
-          }
-        ]
-      },
-      {
-        title: "",
-        sub: [
-          {
-            to: "",
-            title: ""
           }
         ]
       }
     ]
-  }
+  },
+  reflection
 };
 
 export default new Vuex.Store({

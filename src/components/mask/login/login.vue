@@ -5,9 +5,9 @@
     <div class="content">
       <div class="logo"></div>
       <div class="form">
-        <el-input class="input-item" type="text" v-model="username" placeholder="请输入用户名" />
+        <el-input class="input-item" type="text" v-model="account" placeholder="请输入用户名" />
         <el-input class="input-item" type="password" v-model="password" placeholder="请输入密码" />
-        <el-button class="login" type="primary">登录</el-button>
+        <el-button class="login" type="primary" @click="handleLogin">登录</el-button>
       </div>
     </div>
   </div>
@@ -18,13 +18,25 @@
  * 2. 登录后，过度动画
  */
 
+import { mapActions } from 'vuex'
+
 export default {
   name: "login",
   data() {
     return {
-      username: "",
+      account: "",
       password: ""
     };
+  },
+  methods: {
+    ...mapActions(['login']),
+    handleLogin() {
+      const { account, password } = this;
+      this.login({
+        account,
+        password
+      })
+    }
   }
 };
 </script>

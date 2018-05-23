@@ -1,60 +1,36 @@
 <template>
   <div id="app">
     <global-mask v-if="mask.isShow" />
-    <header id="top">
-      <div class="logo"></div>
-      <div class="topbar-wrapper">
-        <topBar />
-      </div>
-    </header>
-    <main id="center">
-      <div class="navigation">
-        <navigation />
-      </div>
-      <div class="content">
-        <transition name="fade" mode="out-in">
-          <router-view></router-view>
-        </transition>
-      </div>
-    </main>
+    <Stage v-else />
   </div>
 </template>
 <script type="text/babel">
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import globalMask from "@/components/mask/mask.vue";
-import topBar from "@/components/topBar/topBar.vue";
-import navigation from "@/components/navigation/navigation.vue";
-import * as type from "./store/mutation-type";
+import Stage from './Stage';
 
 export default {
   components: {
     globalMask,
-    topBar,
-    navigation
+    Stage
   },
   computed: {
     ...mapState(["mask"])
   },
+  created() {
+    this.checkToken();
+  },
+  updated() {
+    this.checkToken();
+  },
   mounted() {
-    // this.showMask({
-    //   type: "login"
-    // })
-    this.getBrands();
-    this.getCommodityCategory();
   },
   methods: {
-    ...mapMutations({
-      showMask: type.SHOW_MASK
-    }),
-    ...mapActions(["getBrands", "getCommodityCategory"])
+    ...mapActions(['checkToken'])
   }
 };
 </script>
-<style>
-:root {
-  --顶部高度: 70px;
-  --侧边宽度: 300px;
-}
+<style scoped>
 #app {
   width: 100vw;
   height: 100vh;

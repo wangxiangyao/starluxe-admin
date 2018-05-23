@@ -7,7 +7,7 @@
       @close="handleClose"
       :active-text-color="style.mainColor"
       :router="true">
-      <template v-for="(item, index) in menuList">
+      <template v-for="(item, index) in menu">
         <el-submenu :key="index" :index="item.title" v-if="item.sub">
           <template slot="title">
             <i :class="[item.icon ? item.icon : 'el-icon-menu']"></i>

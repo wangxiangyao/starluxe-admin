@@ -162,11 +162,13 @@ export default function initListModule(config = {}) {
           .getList(name, { ...pureFilterConfig, page, limit })
           .then(res => {
             console.log("用户列表请求——响应:", res);
-            if (getList) {
-              res = getList(res); // 传入的配置中，是不是有getList函数，有就先调用getList
-            }
-            if (res.status === 200) {
+            if (res.data.code === 200) {
+              if (getList) {
+                res = getList(res); // 传入的配置中，是不是有getList函数，有就先调用getList
+              }
               commit(TYPE.STORE, res.data.data);
+            } else {
+              throw new Error("没有权限");
             }
           })
           .catch(err => {

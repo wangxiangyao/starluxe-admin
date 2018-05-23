@@ -1,5 +1,6 @@
 // store中常用到的一些工具函数
 import * as TYPE from "./mutatison-type";
+import reflection from "../reflection";
 
 export const normalise = (arr, by) => {
   /**
@@ -111,3 +112,81 @@ export const isNeedDestroy = (
     }
   }
 };
+
+export const getByPermission = (all, permissionMap) => {
+  // 判断all是不是对象如果是，判断是不是数组
+  // 如果是数组，递归调用
+  // 如果是对象，找对象中的key字段，如果没有，报错（必须有key）,
+  //  找到key之后，去reflection中找映射，找到后，去permissionMap中
+  /**
+   * - 判断是否为对象
+   *    - 是，判断是否为数组
+   *      - 是，递归调用自身
+   *      - 否，判断是否含有key字段,且为字符串
+   *        - 是，查找reflection是否有此字段
+   *          - 是，根据reflection，查找permissionMap是否有对应权限
+   *            - 是，记录obj，判断是否有sub字段
+   *              - 是，递归调用自身
+   *              - 否，返回obj
+   *            - 否，不返回此obj
+   *          - 否，默认拥有权限，返回此obj
+   *        - 否，报错，必须有有效key
+   *    - 否，判断是否为字符串
+   *      - 是，默认此字符串为key，执行查找逻辑
+   *      - 否，报错（无效的参数）
+   */
+  const type = typeof all;
+  let result;
+  if (type === "object") {
+    if (Array.isArray(all)) {
+      console.log('是数组');
+      result = all.filter(v => {
+        return getByPermission(v, permissionMap);
+      });
+    } else {
+      let key = all.key;
+      if (key && typeof key === "string") {
+        console.log("存在有效key：", key);
+        if (checkPermission(key, permissionMap)) {
+          console.log("通过权限检查");
+          result = all;
+          if (all.sub) {
+            result.sub = all.sub.filter(v => {
+              return getByPermission(v, permissionMap);
+            });
+          }
+          return result;
+        } else {
+          return null;
+        }
+      } else {
+        throw new Error("应包含有效key值");
+      }
+    }
+  } else {
+    if (type === "string") {
+      // 调用查询拿一套
+      if (checkPermission(all, permissionMap)) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      throw new Error("请输入有效的参数");
+    }
+  }
+  return result;
+};
+
+function checkPermission(key, permissionMap) {
+  if (reflection[key] === undefined) {
+    return true;
+  }
+  const { name, permissionName } = reflection[key];
+  if (permissionMap[name]) {
+    if (permissionMap[name][permissionName]) {
+      return true;
+    }
+  }
+  return false;
+}
