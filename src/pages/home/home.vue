@@ -4,11 +4,9 @@
   </div>
 </template>
 <script type="text/babel">
-  export default {
-    name: 'home',
-  }
+export default {
+  name: "home"
+};
 </script>
 <style>
-
 </style>
-

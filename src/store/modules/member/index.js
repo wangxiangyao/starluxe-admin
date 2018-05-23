@@ -1,8 +1,7 @@
-import init from '../../common/list';
-import enumber from '../../enum.js';
+import init from "../../common/list";
 
 const memberModule = init({
-  name: 'member',
+  name: "member",
   listActivityTimeBucket: 1 * 60 * 60 * 1000,
   state: {
     filterMap: {
@@ -17,82 +16,82 @@ const memberModule = init({
        *  - key 表示再枚举store中的字段名
        */
       userId: {
-        type: 'String',
-        value: '',
-        text: 'id',
+        type: "String",
+        value: "",
+        text: "id",
         isEnum: false,
-        kind: 'input'
+        kind: "input"
       },
       nickName: {
-        type: 'String',
-        value: '',
-        text: '昵称',
+        type: "String",
+        value: "",
+        text: "昵称",
         isEnum: false,
-        kind: 'input'
+        kind: "input"
       },
       sex: {
-        type: 'String',
-        value: '',
-        text: '性别',
+        type: "String",
+        value: "",
+        text: "性别",
         isEnum: true,
         enum: [],
-        key: 'sex',
-        kind: 'radio'
+        key: "sex",
+        kind: "radio"
       },
       mobile: {
-        type: 'String',
-        value: '',
-        text: '电话',
+        type: "String",
+        value: "",
+        text: "电话",
         isEnum: false,
-        kind: 'input'
+        kind: "input"
       },
       realName: {
-        type: 'String',
-        value: '',
-        text: '真实姓名',
+        type: "String",
+        value: "",
+        text: "真实姓名",
         isEnum: false,
-        kind: 'input'
+        kind: "input"
       },
       shareOriginChannel: {
-        type: 'String',
-        value: '',
-        text: '所属渠道',
+        type: "String",
+        value: "",
+        text: "所属渠道",
         isEnum: false,
-        kind: 'input'
+        kind: "input"
       },
       realNameAuthStatus: {
-        type: 'String',
-        value: '',
-        text: '实名认证情况',
+        type: "String",
+        value: "",
+        text: "实名认证情况",
         isEnum: true,
         enum: [],
-        key: 'realNameAuthStatus',
-        kind: 'select'
+        key: "realNameAuthStatus",
+        kind: "select"
       },
       type: {
-        type: 'String',
-        value: '',
-        text: '会员类型',
+        type: "String",
+        value: "",
+        text: "会员类型",
         isEnum: true,
         enum: [],
-        key: 'memberType',
-        kind: 'select'
+        key: "memberType",
+        kind: "select"
       },
       periodCardHoldFlag: {
-        type: 'String',
-        value: '',
-        text: '是否持有抱起卡',
+        type: "String",
+        value: "",
+        text: "是否持有抱起卡",
         isEnum: true,
         enum: [],
-        key: 'periodCardHoldFlag',
-        kind: 'radio'
+        key: "periodCardHoldFlag",
+        kind: "radio"
       },
       registerTime: {
-        type: 'Array',
+        type: "Array",
         value: [],
         isEnum: false,
-        text: '注册时间区间',
-        kind: 'datePicker'
+        text: "注册时间区间",
+        kind: "datePicker"
       }
     },
     dataMap: {
@@ -100,90 +99,90 @@ const memberModule = init({
         show: [
           // 所有的可显示列，服务端渲染进来
           {
-            label: '用户ID',
-            prop: 'id',
+            label: "用户ID",
+            prop: "id",
             fixed: true,
-            width: '70'
+            width: "70"
           },
           {
-            label: '手机号',
-            prop: 'mobile',
-            width: '150'
+            label: "手机号",
+            prop: "mobile",
+            width: "150"
           },
           {
-            label: '昵称',
-            prop: 'nickName',
-            width: '150'
+            label: "昵称",
+            prop: "nickName",
+            width: "150"
           },
           {
-            label: '用户类型',
-            prop: 'typeName'
+            label: "用户类型",
+            prop: "typeName"
           },
           {
-            label: '性别',
-            prop: 'sexName'
+            label: "性别",
+            prop: "sexName"
           },
           {
-            label: '所属渠道',
-            prop: 'shareOriginChannel'
+            label: "所属渠道",
+            prop: "shareOriginChannel"
           },
           {
-            label: 'be shared by',
-            prop: 'shareOriginUserId',
-            width: '150'
+            label: "be shared by",
+            prop: "shareOriginUserId",
+            width: "150"
           },
           {
-            label: '注册时间',
-            prop: 'createDatetimeStr',
-            width: '160'
+            label: "注册时间",
+            prop: "createDatetimeStr",
+            width: "160"
           },
           {
-            label: 'isHave包期卡',
-            prop: 'periodCardHoldFlag',
-            width: '140'
+            label: "isHave包期卡",
+            prop: "periodCardHoldFlag",
+            width: "140"
           },
           {
-            label: '身份证号',
-            prop: 'idCardNo',
-            width: '170'
+            label: "身份证号",
+            prop: "idCardNo",
+            width: "170"
           }
         ],
         extend: [
           {
-            label: '实名认证情况：',
-            prop: 'realNameAuthStatusName'
+            label: "实名认证情况：",
+            prop: "realNameAuthStatusName"
           },
           {
-            label: '真实姓名：',
-            prop: 'realName'
+            label: "真实姓名：",
+            prop: "realName"
           },
           {
-            label: '总押金：',
-            prop: 'totalDeposit'
+            label: "总押金：",
+            prop: "totalDeposit"
           },
           {
-            label: '可用押金：',
-            prop: 'usableDeposit'
+            label: "可用押金：",
+            prop: "usableDeposit"
           },
           {
-            label: '冻结押金：',
-            prop: 'freezedDeposit'
+            label: "冻结押金：",
+            prop: "freezedDeposit"
           },
           {
-            label: '总额度：',
-            prop: 'totalQuota'
+            label: "总额度：",
+            prop: "totalQuota"
           },
           {
-            label: '可用额度：',
-            prop: 'usableQuota'
+            label: "可用额度：",
+            prop: "usableQuota"
           },
           {
-            label: '冻结额度：',
-            prop: 'freezedQuota'
+            label: "冻结额度：",
+            prop: "freezedQuota"
           },
           {
-            label: '被此用户邀请且注册的',
-            prop: 'invitedUserRegisterNumber'
+            label: "被此用户邀请且注册的",
+            prop: "invitedUserRegisterNumber"
           }
         ]
       },

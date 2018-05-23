@@ -18,24 +18,22 @@
   </div>
 </template>
 <script type="text/babel">
+import listPreview from "@/components/listPreview/listPreview.vue";
+import listMixin from "@/mixins/list.js";
 
-  import listPreview from '@/components/listPreview/listPreview.vue'
-  import listMixin from '@/mixins/list.js';
-
-  export default {
-    mixins: [listMixin('commodity')],
-    components: {
-      listPreview
-    }
+export default {
+  mixins: [listMixin("commodity")],
+  components: {
+    listPreview
   }
+};
 </script>
 <style>
-  #commodityList {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    padding: 0 20px;
-  }
+#commodityList {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 0 20px;
+}
 </style>
-

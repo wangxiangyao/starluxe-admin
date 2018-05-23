@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build:dev": "vue-cli-service build --mode development",
+    "build:": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.3.9",
+    "eslint-plugin-vue": "^4.5.0",
     "moment": "^2.22.1",
     "normalize.css": "^8.0.0",
     "vue": "^2.5.16",
@@ -45,6 +47,9 @@
     "rules": {
       "no-console": "off"
     },
+    "plugins": [
+      "vue"
+    ],
     "parserOptions": {
       "parser": "babel-eslint"
     }

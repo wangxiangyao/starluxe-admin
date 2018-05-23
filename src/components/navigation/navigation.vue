@@ -39,91 +39,92 @@
   </div>
 </template>
 <script type="text/babel">
-  /**
-    TODO: 权限管理
-    TODO: 收起，展开功能
-  
-   */
+/**
+  TODO: 权限管理
+  TODO: 收起，展开功能
 
-  import { mapGetters } from 'vuex'
+  */
 
-  export default {
-    name: 'navigation',
-    data() {
-      return {
-        style: this.$store.state.style
+import { mapGetters } from "vuex";
+
+export default {
+  name: "navigation",
+  data() {
+    return {
+      style: this.$store.state.style
+    };
+  },
+  computed: {
+    ...mapGetters(["menu"]),
+    menuList() {
+      let menu;
+      if (this.menu.ready) {
+        menu = this.menu.item;
+      } else {
+        menu = [
+          {
+            title: "",
+            to: ""
+          },
+          {
+            title: "",
+            sub: [
+              {
+                to: "",
+                title: ""
+              },
+              {
+                title: "",
+                sub: [
+                  {
+                    to: "",
+                    title: ""
+                  }
+                ]
+              },
+              {
+                to: "",
+                title: ""
+              },
+              {
+                to: "",
+                title: ""
+              },
+              {
+                to: "",
+                title: ""
+              }
+            ]
+          },
+          {
+            title: "",
+            sub: [
+              {
+                to: "",
+                title: ""
+              }
+            ]
+          }
+        ];
       }
+      return menu;
     },
-    computed: {
-      ...mapGetters(['menu']),
-      menuList () {
-        let menu
-        if (this.menu.ready) {
-          menu = this.menu.item
-        } else {
-          menu = [
-            {
-              title: '',
-              to: ''
-            },
-            {
-              title: '',
-              sub: [{
-                to: '',
-                title: ''
-              },
-              {
-                title: '',
-                sub: [{
-                  to: '',
-                  title: ''
-                }]
-              },
-              {
-                to: '',
-                title: ''
-              },
-              {
-                to: '',
-                title: ''
-              },
-              {
-                to: '',
-                title: ''
-              }]
-            },
-            {
-              title: '',
-              sub: [{
-                to: '',
-                title: ''
-              }]
-            },
-          ]
-        }
-        return menu
-      },
-      currentPath() {
-        return this.$route.path
-      }
-    },
-    methods: {
-      handleOpen () {
-        
-      },
-      handleClose () {
-
-      }
+    currentPath() {
+      return this.$route.path;
     }
+  },
+  methods: {
+    handleOpen() {},
+    handleClose() {}
   }
+};
 </script>
 <style>
-  .fill-grey {
-    display: inline-block;
-    background-color: rgb(235, 235, 235);
-    width: calc(100% - 50px);
-    height: 36px;
-    margin: 10px 0;
-  }
+.fill-grey {
+  display: inline-block;
+  background-color: rgb(235, 235, 235);
+  width: calc(100% - 50px);
+  height: 36px;
+  margin: 10px 0;
+}
 </style>
-

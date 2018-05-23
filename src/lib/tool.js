@@ -3,7 +3,7 @@ export const deepCopy = (origin, deep) => {
   // TODO: 加入控制层级的参数，默认值为0
   deep = deep === undefined ? -1 : deep;
   let data;
-  if (typeof origin === 'object') {
+  if (typeof origin === "object") {
     // 判断深度，如果为0，结束迭代
     if (deep === 0) {
       data = origin;

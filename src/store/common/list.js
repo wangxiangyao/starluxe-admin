@@ -26,10 +26,10 @@
  *  - enum，是枚举值的各个值：val表示值，text表示中文描述
  */
 
-import * as TYPE from './mutatison-type';
-import api from '@/api';
-import { deepCopy } from '@/lib/tool.js';
-import { isNeedDestroy, normalise } from './tool.js';
+import * as TYPE from "./mutatison-type";
+import api from "@/api";
+import { deepCopy } from "@/lib/tool.js";
+import { isNeedDestroy, normalise } from "./tool.js";
 
 export default function initListModule(config = {}) {
   const LIST_ACTIVITY_TIME_BUCKET = config.listActivityTimeBucket;
@@ -69,8 +69,8 @@ export default function initListModule(config = {}) {
         lastUpdate: 0,
         remind: {
           // TODO: 局部的消息提示，这一块再设计一下,暂时用不到
-          type: '',
-          message: '',
+          type: "",
+          message: ""
         },
         /**
          * dataMap: 当前list的table项，包括，详情，列表预览，所有可能的table字段
@@ -81,7 +81,7 @@ export default function initListModule(config = {}) {
          */
         dataMap: {},
         filterMap: {},
-        ...state,
+        ...state
       };
     },
     getters: {
@@ -97,7 +97,7 @@ export default function initListModule(config = {}) {
          *      - Array：空数组
          */
         const obj = JSON.parse(JSON.stringify(state.filterMap));
-        for (const [key, value] of Object.entries(obj)) {
+        for (const value of Object.values(obj)) {
           if (value.isEnum) {
             console.log(`在module：${name}检测到枚举值`);
             value.enum = rootState.enumber[value.key];
@@ -108,14 +108,14 @@ export default function initListModule(config = {}) {
       pureFilterConfig: (state, getters) => {
         const c = {};
         for (const [key, value] of Object.entries(getters.filterConfig)) {
-          if (value.value !== '' && value.value.length !== 0) {
+          if (value.value !== "" && value.value.length !== 0) {
             if (Array.isArray(value.value)) {
               //  对于数组，判断是否所有项都为空值项，如果不是，再添加进有效配置项
               const arr = value.value.filter(item => {
-                return item !== '';
+                return item !== "";
               });
               if (arr.length !== 0) {
-                c[key] = `${value.value.join(',')}`;
+                c[key] = `${value.value.join(",")}`;
               }
             } else {
               c[key] = value.value;
@@ -142,28 +142,31 @@ export default function initListModule(config = {}) {
     actions: {
       getListIfNeed({ state, dispatch, commit }) {
         // 根据缓存情况，判断是否请求数据
-        if (isNeedDestroy({ state, commit }, { type: 1, page: state.page, LIST_ACTIVITY_TIME_BUCKET })) {
-          dispatch('getList');
+        if (
+          isNeedDestroy(
+            { state, commit },
+            { type: 1, page: state.page, LIST_ACTIVITY_TIME_BUCKET }
+          )
+        ) {
+          dispatch("getList");
         }
       },
       getList({ state, getters, commit }) {
-        console.log('请求list:', name);
+        console.log("请求list:", name);
         const { pureFilterConfig } = getters;
         const { page, limit } = state;
         const { getList } = extend.actions;
         commit(TYPE.LOADING, { type: 0 });
-        api.getList(name, {
-          ...pureFilterConfig,
-          page,
-          limit
-        })
+
+        api
+          .getList(name, { ...pureFilterConfig, page, limit })
           .then(res => {
-            console.log('用户列表请求响应:', res);
+            console.log("用户列表请求——响应:", res);
             if (getList) {
-              res = getList(res);
+              res = getList(res); // 传入的配置中，是不是有getList函数，有就先调用getList
             }
             if (res.status === 200) {
-              commit(TYPE.STORE, res.data);
+              commit(TYPE.STORE, res.data.data);
             }
           })
           .catch(err => {
@@ -172,44 +175,44 @@ export default function initListModule(config = {}) {
       },
       changePage({ dispatch, commit }, page) {
         commit(TYPE.CHANGE_PAGE, page);
-        dispatch('getListIfNeed');
+        dispatch("getListIfNeed");
       },
-      changeFilter({ dispatch, commit }, { type = 'all', data = {} } = {}) {
+      changeFilter({ dispatch, commit }, { type = "all", data = {} } = {}) {
         /**
          * 只要改变了过滤条件，则直接触发重新获取数据（不用判断销毁状态）
          */
         /**
          * type: all empty-one empty-all
          */
-        if (type === 'all') {
+        if (type === "all") {
           commit(TYPE.CHANGE_FILTER, data);
-        } else if (type === 'empty-one') {
+        } else if (type === "empty-one") {
           commit(TYPE.EMPTY_FILTER_ONE, data);
-        } else if (type === 'empty-all') {
+        } else if (type === "empty-all") {
           // TODO: 看情况，还没有做
           commit(TYPE.EMPTY_FILTER);
         }
         commit(TYPE.DESTORY, { type: 0 });
-        dispatch('getList');
+        dispatch("getList");
       },
       refresh({ dispatch, commit }) {
         commit(TYPE.DESTORY, { type: 0 });
-        dispatch('getList');
+        dispatch("getList");
       },
       ...actions
     },
     mutations: {
       [TYPE.STORE](state, { count, list }) {
         const { byPage, page, limit } = state;
-        const result = normalise(list, 'id');
+        const result = normalise(list, "id");
         // 为每一页，添加 是否销毁，isLoading，lastUpdate
         byPage[page] = {
           item: result.data,
           isLoading: false,
           needDestroy: false,
-          lastUpdate: +new Date(),
+          lastUpdate: +new Date()
         };
-        result.all.forEach((item) => {
+        result.all.forEach(item => {
           if (!state.all.includes(item)) {
             state.all.push(item);
           }
@@ -239,10 +242,10 @@ export default function initListModule(config = {}) {
          * what: 销毁那一部分数据
          *  - @type: 0
          *  - @type: 1
-         *    - @page: '要销毁的页码'
+         *    - @page: "要销毁的页码"
          *  - @type: 2
-         *    - @id: '要销毁的member的id'，
-         *    - @page: '此member所在page'
+         *    - @id: "要销毁的member的id"，
+         *    - @page: "此member所在page"
          */
         const { type } = what;
         switch (type) {
@@ -254,7 +257,7 @@ export default function initListModule(config = {}) {
             state.pre = 1;
             break;
           case 1:
-            state.byPage[what.page].forEach((item) => {
+            state.byPage[what.page].forEach(item => {
               state.all.splice(state.all.includes(item), 1);
             });
             delete state.byPage[what.page];
@@ -264,7 +267,7 @@ export default function initListModule(config = {}) {
             state.all.splice(state.all.includes(what.id));
             break;
           default:
-            throw new Error('不存在的销毁类型。');
+            throw new Error("不存在的销毁类型。");
         }
       },
       [TYPE.LOADING](state, what) {
@@ -281,7 +284,7 @@ export default function initListModule(config = {}) {
             state.byPage[what.page][what.id].isLoading = true;
             break;
           default:
-            throw new Error('不存在的loading类型。');
+            throw new Error("不存在的loading类型。");
         }
       },
       [TYPE.EMPTY_FILTER_ONE](state, name) {
@@ -289,10 +292,10 @@ export default function initListModule(config = {}) {
         const config = state.filterMap[name];
         const type = config.type;
         switch (type) {
-          case 'String':
-            config.value = '';
+          case "String":
+            config.value = "";
             break;
-          case 'Array':
+          case "Array":
             config.value = [];
             break;
           default:

@@ -21,7 +21,7 @@
  * - 组件更新页码：发起更新页码mutation，再次请求数据，更新视图
  */
 
-import { createNamespacedHelpers } from 'vuex';
+import { createNamespacedHelpers } from "vuex";
 
 export default function list(name) {
   const { mapState, mapGetters, mapActions } = createNamespacedHelpers(name);
@@ -30,8 +30,8 @@ export default function list(name) {
     data() {
       return {
         mask: {
-          type: '',
-          message: '',
+          type: "",
+          message: "",
           all: this.$store.state.mask.all
         }
       };
@@ -40,24 +40,24 @@ export default function list(name) {
       this.getListIfNeed();
     },
     computed: {
-      ...mapState(['byPage', 'page', 'pageSum', 'isLoading']),
-      ...mapGetters(['filterConfig', 'pureFilterConfig', 'tableColumn'])
+      ...mapState(["byPage", "page", "pageSum", "isLoading"]),
+      ...mapGetters(["filterConfig", "pureFilterConfig", "tableColumn"])
     },
     methods: {
-      ...mapActions(['getListIfNeed', 'changePage', 'changeFilter', 'refresh']),
+      ...mapActions(["getListIfNeed", "changePage", "changeFilter", "refresh"]),
       handleChangePage(val) {
         this.changePage(val);
       },
       handleEmptyFilterOne(name) {
-        console.log('清空一个过滤项：', name);
+        console.log("清空一个过滤项：", name);
         this.changeFilter({
-          type: 'empty-one',
+          type: "empty-one",
           data: name
         });
       },
       handleFilter(filter) {
         this.changeFilter({
-          type: 'all',
+          type: "all",
           data: filter
         });
       },

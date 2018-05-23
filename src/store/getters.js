@@ -1,5 +1,4 @@
-'use strict';
-
+"use strict";
 
 const getters = {
   menu(state) {

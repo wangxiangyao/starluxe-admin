@@ -1,5 +1,5 @@
 // store中常用到的一些工具函数
-import * as TYPE from './mutatison-type';
+import * as TYPE from "./mutatison-type";
 
 export const normalise = (arr, by) => {
   /**
@@ -11,10 +11,13 @@ export const normalise = (arr, by) => {
    * 对每一个有效项：应添加 是否销毁，isLoading，hasMore，lastUpdate
    * 确保数据的唯一性，不会有重复数据存在
    */
+  if (!by) {
+    console.log("没有by");
+  }
   const obj = {};
   const all = [];
-  arr.forEach((item) => {
-    if (item.hasOwnProperty('id')) {
+  arr.forEach(item => {
+    if (item.hasOwnProperty("id")) {
       const id = item.id;
       if (!all.includes(id)) {
         // 添加额外状态项
@@ -23,12 +26,12 @@ export const normalise = (arr, by) => {
           hasMore: true,
           isLoading: false,
           needDestroy: false,
-          lastUpdate: +new Date(),
+          lastUpdate: +new Date()
         };
         all.push(id);
       }
     } else {
-      throw new Error('范式化的数据，没有id，无法执行范式化');
+      throw new Error("范式化的数据，没有id，无法执行范式化");
     }
   });
   return {
@@ -37,7 +40,10 @@ export const normalise = (arr, by) => {
   };
 };
 
-export const isNeedDestroy = ({ state, commit }, { type = 0, page, id, LIST_ACTIVITY_TIME_BUCKET = 0 } = {}) => {
+export const isNeedDestroy = (
+  { state, commit },
+  { type = 0, page, id, LIST_ACTIVITY_TIME_BUCKET = 0 } = {}
+) => {
   /**
    * @type: 销毁级别;
    * @page: 销毁页码
@@ -64,7 +70,7 @@ export const isNeedDestroy = ({ state, commit }, { type = 0, page, id, LIST_ACTI
   // 循环变量
   let ctx = state; // 当前级别的module
   let currentType = 0;
-  for (; ;) {
+  for (;;) {
     const { needDestroy, lastUpdate } = ctx;
     if (needDestroy === undefined) {
       // 如果没有定义needDestroy表示需要请求
@@ -76,7 +82,7 @@ export const isNeedDestroy = ({ state, commit }, { type = 0, page, id, LIST_ACTI
         if (currentType <= type) {
           // 这里，如果有特殊之处，需要手动改
           if (type === 1) {
-            console.log('需要检查某个页面', page, state.byPage[page]);
+            console.log("需要检查某个页面", page, state.byPage[page]);
             if (state.byPage[page] === undefined) {
               // 如果没有此页，表示需要请求
               return true;
@@ -88,7 +94,7 @@ export const isNeedDestroy = ({ state, commit }, { type = 0, page, id, LIST_ACTI
           }
           continue;
         } else {
-          console.log('不需要销毁');
+          console.log("不需要销毁");
           return false;
         }
       } else {
@@ -96,11 +102,11 @@ export const isNeedDestroy = ({ state, commit }, { type = 0, page, id, LIST_ACTI
         commit(TYPE.DESTORY, {
           type: 0
         });
-        console.log('数据超过活性期限，销毁');
+        console.log("数据超过活性期限，销毁");
         return true;
       }
     } else {
-      console.log('销毁标记为true, 销毁');
+      console.log("销毁标记为true, 销毁");
       return true;
     }
   }
