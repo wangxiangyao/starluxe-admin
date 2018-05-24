@@ -3,6 +3,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import orderRouter from "./orderRouter.js";
 import commodityRouter from "./commodityRouter.js";
+import analyzeRouter from "./analyzeRouter";
 
 import member from "@/pages/member/member.vue";
 
@@ -28,7 +29,8 @@ const router = new VueRouter({
       component: member
     },
     ...orderRouter,
-    ...commodityRouter
+    ...commodityRouter,
+    ...analyzeRouter
   ]
 });
 

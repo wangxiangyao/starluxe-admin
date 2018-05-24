@@ -2,7 +2,7 @@
 import * as TYPE from "./mutatison-type";
 import reflection from "../reflection";
 
-export const normalise = (arr, by) => {
+export const normalise = (arr, by = "id") => {
   /**
    * @by: 根据arr中项的哪一个字段范式化
    * @arr: 数据数组
@@ -12,27 +12,34 @@ export const normalise = (arr, by) => {
    * 对每一个有效项：应添加 是否销毁，isLoading，hasMore，lastUpdate
    * 确保数据的唯一性，不会有重复数据存在
    */
-  if (!by) {
-    console.log("没有by");
-  }
   const obj = {};
   const all = [];
   arr.forEach(item => {
-    if (item.hasOwnProperty("id")) {
-      const id = item.id;
-      if (!all.includes(id)) {
-        // 添加额外状态项
-        obj[item.id] = {
+    if (item.hasOwnProperty(by)) {
+      const key = item[by];
+      if (by === "id") {
+        if (!all.includes(key)) {
+          // 添加额外状态项
+          obj[key] = {
+            ...item,
+            hasMore: true,
+            isLoading: false,
+            needDestroy: false,
+            lastUpdate: +new Date()
+          };
+          all.push(key);
+        }
+      } else {
+        obj[key] = {
           ...item,
           hasMore: true,
           isLoading: false,
           needDestroy: false,
           lastUpdate: +new Date()
         };
-        all.push(id);
       }
     } else {
-      throw new Error("范式化的数据，没有id，无法执行范式化");
+      throw new Error(`范式化的数据，没有${by}，无法执行范式化`);
     }
   });
   return {

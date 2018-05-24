@@ -80,14 +80,14 @@ const commodityModule = init({
         enum: []
       },
       rentPriceRange: {
-        type: "String",
+        type: "Array",
         value: [],
         text: "租赁价格区间",
         isEnum: false,
         kind: "numberRange"
       },
       marketPriceRange: {
-        type: "String",
+        type: "Array",
         value: [],
         text: "市场价格区间",
         isEnum: false,

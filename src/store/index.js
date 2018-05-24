@@ -8,6 +8,8 @@ import mutations from "./mutations";
 import member from "./modules/member/";
 import order from "./modules/order/order.js";
 import commodity from "./modules/commodity/commodity.js";
+import analyze from "./modules/analyze/analyze.js";
+
 import enumber from "./enum";
 import reflection from "./reflection.js";
 
@@ -75,6 +77,25 @@ const state = {
             icon: "el-icon-goods"
           }
         ]
+      },
+      {
+        key: "analyze",
+        title: "数据分析",
+        icon: "el-icon-menu",
+        sub: [
+          {
+            key: "analyzeAll",
+            title: "总览",
+            icon: "el-icon-goods",
+            to: "/analyze/all"
+          },
+          {
+            key: "analyzeChannel",
+            to: "/analyze/member",
+            title: "用户分析",
+            icon: "el-icon-star-off"
+          }
+        ]
       }
     ]
   },
@@ -89,6 +110,7 @@ export default new Vuex.Store({
   modules: {
     member,
     order,
-    commodity
+    commodity,
+    analyze
   }
 });

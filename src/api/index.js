@@ -39,5 +39,12 @@ export default {
         ...config
       }
     });
+  },
+  async getAnalyze(name, config) {
+    return await axios.get(`/${name}`, {
+      params: {
+        ...config
+      }
+    });
   }
 };

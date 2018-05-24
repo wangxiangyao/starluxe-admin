@@ -23,10 +23,9 @@ import { mapActions } from "vuex";
 import globalMask from "@/components/mask/mask.vue";
 import topBar from "@/components/topBar/topBar.vue";
 import navigation from "@/components/navigation/navigation.vue";
-import * as type from "./store/mutation-type";
 
 export default {
-  name: 'Stage',
+  name: "Stage",
   components: {
     globalMask,
     topBar,

@@ -18,7 +18,7 @@
  * 2. 登录后，过度动画
  */
 
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
 
 export default {
   name: "login",
@@ -29,13 +29,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(["login"]),
     handleLogin() {
       const { account, password } = this;
       this.login({
         account,
         password
-      })
+      });
     }
   }
 };

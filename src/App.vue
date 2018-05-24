@@ -7,7 +7,7 @@
 <script type="text/babel">
 import { mapState, mapActions } from "vuex";
 import globalMask from "@/components/mask/mask.vue";
-import Stage from './Stage';
+import Stage from "./Stage";
 
 export default {
   components: {
@@ -23,10 +23,9 @@ export default {
   updated() {
     this.checkToken();
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
-    ...mapActions(['checkToken'])
+    ...mapActions(["checkToken"])
   }
 };
 </script>
