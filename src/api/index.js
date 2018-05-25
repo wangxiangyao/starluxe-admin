@@ -1,6 +1,5 @@
 import axios from "axios";
-// TODO: 这里要从store里边获取到token
-// 暂时先这样手写
+
 axios.defaults.baseURL = process.env.VUE_APP_HOST + "/api/v1";
 axios.defaults.headers.common.Authorization = "";
 
@@ -18,6 +17,7 @@ const analyzeRouter = {
 
 export default {
   init(token) {
+    // 在进入登录成功时候，初始化token，用于之后的各种请求
     axios.defaults.headers.common.Authorization = token;
   },
   async login({ account, password }) {

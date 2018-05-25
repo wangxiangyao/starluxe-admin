@@ -98,7 +98,8 @@ export default {
             ],
             isEnum: false,
             text: "起止时间",
-            kind: "datePicker"
+            kind: "datePicker",
+            noClose: true
           }
         },
         dataMap: {}

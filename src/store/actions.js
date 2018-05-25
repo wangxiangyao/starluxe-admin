@@ -58,6 +58,7 @@ const actions = {
     }
   },
   getBrands({ commit }) {
+    // 获取品牌枚举值，存入enumber
     console.log("请求品牌");
     return api.getList("brands").then(res => {
       console.log("获得品牌列表——响应", res);

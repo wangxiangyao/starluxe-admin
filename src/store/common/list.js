@@ -18,12 +18,14 @@
 /**
  * filterMap说明：
  * 每一项：
- * - type表示输入类型
- * - kind表示此过滤项对应的组件类别
+ * - type 表示输入类型
+ * - kind 表示此过滤项对应的组件类别
  * - text 表示此项的中文描述
  * - value 是过滤项的值
+ * - noClose 表示过滤器上部，小tag是否可关闭
+ * - noSend 表示，此项是否需要向后端发送
  * - isEnum 表示是否为枚举值，如果是枚举值
- *  - enum，是枚举值的各个值：val表示值，text表示中文描述
+ * - enum 是枚举值的各个值：val表示值，text表示中文描述
  */
 
 import * as TYPE from "./mutatison-type";
@@ -95,6 +97,7 @@ export default function initListModule(config = {}) {
          *    空值判断
          *      - String：空字符串
          *      - Array：空数组
+         *  枚举字段，从enumber中取出需要的枚举值
          */
         const obj = JSON.parse(JSON.stringify(state.filterMap));
         for (const value of Object.values(obj)) {

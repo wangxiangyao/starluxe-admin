@@ -9,7 +9,7 @@
         v-for="(value, key) in tagConfig"
         :key="key"
         size="mini"
-        closable
+        :closable="!filterProps[key].noClose"
         @close="handleEmptyOne(key)">
         {{`${filterProps[key].text}：${value}`}}
       </el-tag>
