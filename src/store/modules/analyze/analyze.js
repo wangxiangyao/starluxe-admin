@@ -1,4 +1,5 @@
 import api from "@/api";
+import moment from "moment";
 import { deepCopy } from "@/lib/tool.js";
 import {
   STORE,
@@ -81,14 +82,20 @@ export default {
           },
           detailDays: {
             type: "String",
-            value: "",
+            value: "7",
             text: "细化天数",
             isEnum: false,
-            kind: "input"
+            kind: "input",
+            noSend: true
           },
           timeRange: {
             type: "Array",
-            value: [],
+            value: [
+              +moment()
+                .subtract(7, "days")
+                .startOf("day"),
+              +moment().endOf("day")
+            ],
             isEnum: false,
             text: "起止时间",
             kind: "datePicker"
@@ -131,6 +138,9 @@ export default {
     pureFilterConfig: (state, getters) => {
       const c = {};
       for (const [key, value] of Object.entries(getters.filterConfig)) {
+        if (value.noSend) {
+          continue;
+        }
         if (value.value !== "" && value.value.length !== 0) {
           if (Array.isArray(value.value)) {
             //  对于数组，判断是否所有项都为空值项，如果不是，再添加进有效配置项
@@ -158,7 +168,7 @@ export default {
     },
     getAnalyze({ state, getters, commit }) {
       console.log("请求analyze:", state.current);
-      const { pureFilterConfig } = getters;
+      const { pureFilterConfig, filterConfig } = getters;
       commit(LOADING, { type: 0 });
 
       api
@@ -166,7 +176,15 @@ export default {
         .then(res => {
           console.log("数据分析——响应:", res);
           if (res.data.code === 200) {
-            commit(STORE, res.data.data);
+            let data = {};
+            switch (state.current) {
+              case "member":
+                data = initMember(res.data.data, filterConfig);
+                break;
+              default:
+                data = res.data.data;
+            }
+            commit(STORE, data);
           } else {
             throw new Error("没有权限");
           }
@@ -239,3 +257,51 @@ export default {
     }
   }
 };
+
+function initMember(origin, config) {
+  const data = {
+    allRegister: 155,
+    // allWxRegister: 140,
+    // allMobileRegister: 15,
+    allOrders: 5,
+    allOrdersPeriod: 2,
+    days: {}
+  };
+  data.allRegister = origin.shareOriginChannelRegisterUserCount;
+  data.allOrders = origin.placePurchaseUserCount;
+  data.allOrdersPeriod = origin.hasPeriodCardUserCount;
+
+  const dayRange = config.timeRange.value;
+  const limit = config.detailDays.value;
+  const daysData = origin.userDateCountMap;
+  for (
+    let theDay = moment(dayRange[0]), i = 1;
+    theDay <= dayRange[1];
+    theDay.add(1, "days"), i++
+  ) {
+    if (i > limit) {
+      // 记录剩余的
+      break;
+    }
+    const ms = +theDay;
+    if (daysData[ms]) {
+      data.days[ms] = {
+        register: daysData[ms].registerCount,
+        wxRegister: daysData[ms].onlyWechatResisterCount,
+        mobileRegister: daysData[ms].onlyMobileResisterCount,
+        orders: daysData[ms].placePurchaseUserCount,
+        ordersPeriod: daysData[ms].hasPeriodCardUserCount
+      };
+    } else {
+      data.days[ms] = {
+        register: 0,
+        wxRegister: 0,
+        mobileRegister: 0,
+        orders: 0,
+        ordersPeriod: 0
+      };
+    }
+  }
+
+  return data;
+}

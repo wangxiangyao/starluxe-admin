@@ -146,16 +146,15 @@ export const getByPermission = (all, permissionMap) => {
   let result;
   if (type === "object") {
     if (Array.isArray(all)) {
-      console.log('是数组');
       result = all.filter(v => {
         return getByPermission(v, permissionMap);
       });
     } else {
       let key = all.key;
       if (key && typeof key === "string") {
-        console.log("存在有效key：", key);
+        // console.log("存在有效key：", key);
         if (checkPermission(key, permissionMap)) {
-          console.log("通过权限检查");
+          console.log("通过权限检查", key);
           result = all;
           if (all.sub) {
             result.sub = all.sub.filter(v => {

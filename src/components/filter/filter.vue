@@ -6,7 +6,7 @@
       </div>
       <el-tag
         :style="{marginRight: '10px'}"
-        v-for="(value, key) in config"
+        v-for="(value, key) in tagConfig"
         :key="key"
         size="mini"
         closable
@@ -102,6 +102,7 @@
  * - 展开：展开后，显示所有可用过滤项，按输入类别分类排列。点击确定按钮，收起并更新过滤项。点击取消按钮，撤销本次所有过滤更改，还原至上次过滤条件并收起
  */
 import { deepCopy } from "@/lib/tool.js";
+import moment from "moment";
 export default {
   name: "filtration",
   props: {
@@ -155,7 +156,22 @@ export default {
       }
     };
   },
-  computed: {},
+  computed: {
+    tagConfig() {
+      const { config, filterProps } = this;
+      const tagConfig = {};
+      for (let [key, value] of Object.entries(config)) {
+        let tagContent = value;
+        if (filterProps[key].kind === "datePicker") {
+          tagContent = value.split(",").map(time => {
+            return moment(Number(time)).format("YYYY-M-D");
+          });
+        }
+        tagConfig[key] = tagContent;
+      }
+      return tagConfig;
+    }
+  },
   methods: {
     handleEmptyOne(name) {
       this.$emit("closeTag", name);

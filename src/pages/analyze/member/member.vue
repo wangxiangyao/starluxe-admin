@@ -8,7 +8,14 @@
           @filter="handleFilter"
         />
       </div>
-      <div class="analyze-data" ref="echarts"></div>
+      <div class="analyze-data">
+        <div class="analyze-all">
+          {{`总注册量: ${data.allRegister}`}}
+          {{`总下单用户量: ${data.allOrders}`}}
+          {{`总购卡用户量: ${data.allOrdersPeriod}`}}
+        </div>
+        <div class="analyze-echart" ref="echarts"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -46,10 +53,20 @@ export default {
   },
   created() {
     this.init("member");
+    this.getAnalyze("member");
   },
   mounted() {
     this.$nextTick(() => {
-      this.initEcharts();
+      if (!this.isLoading) {
+        this.initEcharts();
+      }
+    });
+  },
+  updated() {
+    this.$nextTick(() => {
+      if (!this.isLoading) {
+        this.initEcharts();
+      }
     });
   },
   methods: {
@@ -188,7 +205,18 @@ export default {
 }
 .analyze-data {
   width: 100%;
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex: auto;
   padding: 10px;
+  background-color: #fff;
+}
+.analyze-all {
+  flex: none;
+  width: 100%;
+  padding: 20px;
+}
+.analyze-echart {
+  flex: 1;
 }
 </style>

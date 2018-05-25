@@ -12,6 +12,10 @@ const listRouter = {
   commodityCategory: "/commodityCategory"
 };
 
+const analyzeRouter = {
+  member: "/marketingReport"
+};
+
 export default {
   init(token) {
     axios.defaults.headers.common.Authorization = token;
@@ -41,7 +45,7 @@ export default {
     });
   },
   async getAnalyze(name, config) {
-    return await axios.get(`/${name}`, {
+    return await axios.get(analyzeRouter[name], {
       params: {
         ...config
       }
