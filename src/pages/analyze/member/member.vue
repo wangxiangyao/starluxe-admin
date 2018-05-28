@@ -124,6 +124,9 @@ export default {
         ],
         series: option.series
       });
+      window.onresize = function() {
+        myChart.resize();
+      };
     },
     __formatEchartOption() {
       const { data } = this;

@@ -119,12 +119,18 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
+#navigation {
+  height: 100%;
+}
 .fill-grey {
   display: inline-block;
   background-color: rgb(235, 235, 235);
   width: calc(100% - 50px);
   height: 36px;
   margin: 10px 0;
+}
+.menu {
+  height: 100%;
 }
 </style>
