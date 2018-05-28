@@ -1,7 +1,9 @@
 <template>
   <div id="stage">
     <header id="top">
-      <div class="logo"></div>
+      <div class="logo">
+        想星 · 管理
+      </div>
       <div class="topbar-wrapper">
         <topBar />
       </div>
@@ -52,6 +54,10 @@ export default {
   min-width: var(--侧边宽度);
   height: var(--顶部高度);
   background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
 }
 
 #center {
