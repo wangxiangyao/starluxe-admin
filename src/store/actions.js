@@ -8,6 +8,7 @@ import {
   STORE_TOKEN,
   SHOW_MASK,
   LOGIN,
+  UNLOGIN,
   CLOSE_MASK
 } from "./mutation-type";
 
@@ -54,6 +55,8 @@ const actions = {
       commit(LOGIN, data);
     } else if (status === 401) {
       console.log("重新登录");
+      api.init("");
+      commit(UNLOGIN);
       commit(SHOW_MASK, { type: "login" });
     }
   },

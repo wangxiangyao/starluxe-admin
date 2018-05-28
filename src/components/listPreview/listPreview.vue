@@ -1,7 +1,7 @@
 <template>
   <div class="list-preview">
     <div class="topBar">
-      <div class="title">{{title}}</div>
+      <!-- <div class="title">{{title}}</div> -->
       <div class="bar">
         <el-button type="primary" @click="handleRefresh">刷新</el-button>
       </div>
@@ -58,6 +58,7 @@ export default {
 .topBar {
   display: flex;
   align-items: center;
+  padding: 10px 0;
 }
 .title {
   flex: none;

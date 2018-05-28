@@ -8,6 +8,11 @@ const mutations = {
     state.token = token;
     localStorage.setItem("token", token);
   },
+  [TYPE.UNLOGIN](state) {
+    state.token = "";
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+  },
   [TYPE.LOGIN](state, data) {
     const { user } = state;
     user.id = data.userId;

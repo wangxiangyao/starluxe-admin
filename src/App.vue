@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <global-mask v-if="mask.isShow" />
-    <Stage v-else />
+    <Stage v-if="!user.isLoading" />
   </div>
 </template>
 <script type="text/babel">
@@ -15,7 +15,7 @@ export default {
     Stage
   },
   computed: {
-    ...mapState(["mask"])
+    ...mapState(["mask", "user"])
   },
   created() {
     this.checkToken();
